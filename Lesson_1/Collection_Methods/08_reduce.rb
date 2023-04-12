@@ -27,12 +27,32 @@ p reduce(array, 10) { |acc, num| acc + num }
 
 ### extra challenge
 
+# attempt 1
 def reduce(arr)
   acc = arr.first.class.new
   arr.each do |element|
     acc = yield(acc, element)
   end
   acc
+end
+
+# attempt 2 (more general)
+def reduce(enum, memo = nil)
+  index = 0
+
+  if memo.nil?
+    accumulator = enum[index]
+    index += 1
+  else
+    accumulator = memo
+  end
+
+  while index < enum.size
+    accumulator = yield(accumulator, enum[index])
+    index += 1
+  end
+
+  accumulator
 end
 
 p reduce(['a', 'b', 'c']) { |acc, value| acc += value } # => 'abc'
