@@ -8,6 +8,17 @@ end
 
 # Further Exploration
 
+=begin
+- initialize an empty array for output
+- iterate from 1 to sqrt(n),
+  - if n is divisible by the current number,
+    - push the current number to the output array
+    - push n / current number to the output array
+- remove duplicate integers
+- sort the output array
+- return the output array
+=end
+
 def divisors(int)
   divisor = []
   (1..(Math.sqrt(int).to_i)).each do |num|
