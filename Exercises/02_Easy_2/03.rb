@@ -1,3 +1,5 @@
+# Attempt 1
+
 def map(array)
   output = array.dup
   array.each_with_index do |element, index|
@@ -12,6 +14,14 @@ def map(array)
     output << yield(element)
   end
   output
+end
+
+# Attempt 2
+
+def map(arr)
+  arr.each_with_object([]) do |ele, obj|
+    obj << yield(ele)
+  end
 end
 
 p map([1, 3, 6]) { |value| value**2 } == [1, 9, 36]
