@@ -1,8 +1,22 @@
+# Attempt 1
+
 def each_cons(arr, n)
   (0...(arr.size - n + 1)).each do |index|
     value1 = arr[index]
     value2 = arr[index + 1, n - 1]
     yield(value1, *value2)
+  end
+  nil
+end
+
+# Attempt 2
+
+def each_cons(arr, n)
+  index = 0
+  loop do
+    break if index + n > arr.size
+    yield(arr[index], *arr[(index + 1), n - 1])
+    index += 1
   end
   nil
 end
