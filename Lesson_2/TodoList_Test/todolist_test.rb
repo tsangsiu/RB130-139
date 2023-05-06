@@ -47,6 +47,8 @@ class TodoListTest < MiniTest::Test
 
   def test_done_question
     assert_equal(false, @list.done?)
+    @list.done!
+    assert_equal(true, @list.done?)
   end
 
   def test_add_raise_error
