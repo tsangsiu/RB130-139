@@ -2,31 +2,33 @@ require 'minitest/autorun'
 require_relative 'cash_register'
 require_relative 'transaction'
 
-class CashRegisterTest < Minitest::Test
+class CashRegisterTest < MiniTest::Test
   def setup
-    @cash_register = CashRegister.new(0)
+    @register = CashRegister.new(1_000)
+    @item_cost = 88; @amount_paid = 100
+    @transaction = Transaction.new(@item_cost)
+    @transaction.amount_paid = @amount_paid
   end
 
   def test_accept_money
-    transaction = Transaction.new(10)
-    transaction.amount_paid = 12
-    
-    previous_amount = @cash_register.total_money
-    @cash_register.accept_money(transaction)
-    current_amount = @cash_register.total_money
-    assert_equal(previous_amount + 12, current_amount)
+    @transaction.amount_paid = @item_cost
+
+    amount_before_transaction = @register.total_money
+    @register.accept_money(@transaction)
+    amount_after_transaction = @register.total_money
+
+    assert_equal(amount_before_transaction + @item_cost,
+                  @register.total_money)
   end
-  
+
   def test_change
-    transaction = Transaction.new(10)
-    transaction.amount_paid = 12
-    assert_equal(2, @cash_register.change(transaction))
+    assert_equal(@amount_paid - @item_cost, @register.change(@transaction))
   end
-  
+
   def test_give_receipt
-    transaction = Transaction.new(10)
-    assert_output("You've paid $10.\n") do
-      @cash_register.give_receipt(transaction)
+    # `puts` adds `\n` at the end
+    assert_output("You've paid $#{@item_cost}.\n") do
+      @register.give_receipt(@transaction)      
     end
   end
 end

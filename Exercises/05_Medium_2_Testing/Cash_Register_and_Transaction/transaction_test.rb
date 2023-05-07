@@ -1,12 +1,17 @@
 require 'minitest/autorun'
 require_relative 'transaction'
 
-class CashRegisterTest < Minitest::Test
+class TransactionTest < MiniTest::Test
+  def setup
+    @item_cost = 88; @amount_paid = 100
+    @transaction = Transaction.new(@item_cost)
+    @transaction.amount_paid = @amount_paid
+  end
+
   def test_prompt_for_payment
-    transaction = Transaction.new(10)
-    input = StringIO.new('12\n')
+    input = StringIO.new("#{@amount_paid}\n")
     output = StringIO.new
-    transaction.prompt_for_payment(input: input, output: output)
-    assert_equal(12, transaction.amount_paid)
+    @transaction.prompt_for_payment(input: input, output: output)
+    assert_equal(@amount_paid, @transaction.amount_paid)
   end
 end
