@@ -1,38 +1,50 @@
 =begin
 
-=== P ===
-- To count the number of differences between two homologous DNA strands
+# Problem
+- to write a program that can calculate the Hamming distance between two DNA strands
+- Hamming distance
+  - the number of differences between two homologous DNA strands
+  - example:
+      GAGCCTACTAACGGGAT
+      CATCGTAATGACGGCCT
+      ^ ^ ^  ^ ^    ^^
+    Hamming distance = 7
+  - only defined for sequences of equal length
+  - for sequence of unequal length, compute the distance over the shorter length
 
-=== E ===
-- Need a `DNA` class
-- Need `#hamming_distance`
-- Count until the shorter DNA reaches its end
+# Examples
+- in the test class
 
-=== D ===
-- Input: String for DNA
-- output: `#hamming_distance` returns an Integer
+# Data Structure
+- input: string
+- output: integer (distance)
 
-=== A ===
-- `#hamming_distance`
-  - Find the shorter DNA between the calling object and the argument
-  - Initialize a counter
-  - Iterate through the shorter DNA character by character
-    - If the current point is not the same as the corresponding one, increment the counter by 1
-  - return the counter
+# Algorithm
+- constructor for the `DNA` class
+  - take a string (a DNA strand) when instantiation
+
+- `DNA#hamming_distance`
+  - take a string (a DNA strand) as an argument
+  - assign the shorter strand to `shorter_strand`
+  - assign the longer strand to `longer_strand`
+  - initialize `distance` to `0`
+  - iterate over each character in `shorter_strand`
+    - increment `distance` by 1 if the character in the corresponding position is not the same
+  - return `distance`
 
 =end
 
 class DNA
-  def initialize(dna)
-    @dna = dna
+  def initialize(strand)
+    @strand = strand
   end
 
-  def hamming_distance(dna)
-    shorter_dna, longer_dna = [@dna, dna].sort_by { |el| el.length }
-    count = 0
-    shorter_dna.chars.each_with_index do |point, index|
-      count += 1 if point != longer_dna[index]
+  def hamming_distance(strand)
+    distance = 0
+    shorter_strand, longer_strand = [@strand, strand].sort_by { |strand| strand.length }
+    shorter_strand.chars.each_with_index do |dna, index|
+      distance += 1 if dna != longer_strand[index]
     end
-    count
+    distance
   end
 end
