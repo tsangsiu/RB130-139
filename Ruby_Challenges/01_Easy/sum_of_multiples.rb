@@ -1,12 +1,13 @@
 =begin
 
 # Problem
-- given a natural number (N), and a set of one or more other numbers (F1, F2, ...)
-- find the sum of the multiples of F1, F2, ... that are less than N
-- duplicate multiples are counted once only
-- if F1, F2, ... are not given, use a default set of 3 and 5
+- given a natual number N
+- given another set of numbers M1, M2, ...
+- M1, M2, ... may not be given
+- find the sum of each of the multiples of M1, M2, ... that are smaller than N
+- if M1, M2, ... are not given, use M1 = 3 and M2 = 5
 
-# Example
+# Examples
 - N = 10, F1, F2, ... not given
   N = 10, F1 = 3, F2 = 5
   multiples = [3, 5, 6, 9]
@@ -15,80 +16,79 @@
   multiples = [7, 14, 13, 17]
   sum = 7 + 14 + 13 + 17 = 51
 
-- we need a `SumOfMultiples` class
-  - it takes F1, F2, F3, ... upon instantiation
-- we need an instance method `SumOfMultiples#to`
-  - to calculate the sum of multiples given F1, F2, F3, ...
-- we also need a class method `SumOfMultiples::to`
-  - to calculate the sum of multiples given F1 = 3 and F2 = 5
+- from the test cases, we need to create a `SumOfMultiples` class
+- the `SumOfMultiples` class has the following three methods:
+  - the constructor
+    - it accepts integers representing M1, M2, ...
+  - `SumOfMultiples#to`
+    - it accepts an integer representing N
+  - `SumOfMultiples::to`
+    - it accepts an integer representing N
+    - M1 = 3 and M2 = 5
 
 # Data Structure
-- input: integers, N and F1, F2, ... (optional)
-- output: integer, sum
+- input: integers representing N and/or M1, M2, ...
+- intermediate: array to store the multiples
+- output: integer, the sum of all the desired multiples
 
 # Algorithm
 - constructor
-  - accepts integers (F1, F2, ...) as arguments
+  - accepts an unknown number of integers representing M1, M2, ...
+  - assign the integers to an array to an instance variable `@m_s`
 
 - `SumOfMultiples#to`
-  - accepts an integer (N) as an argument
+  - takes an integer representing N as an argument
+  - output the sum of the desired multiples
   - initialize `multiples` to an empty array
-  - get all multiples of F1, F2, ... that are smaller than N
-  - push all multiples to `multiples`
-  - remove all duplicate multiples
-  - return the sum of the unique multiples
-  
-- `SumOfMultiples::to`
-  - accepts an integer (N) as an argument
-  - initialize `multiples` to an empty array
-  - get all multiples of 3 and 5 that are smaller than N
-  - push all multiples to `multiples`
-  - remove all duplicate multiples
-  - return the sum of the unique multiples
+  - for each of the number in `@m_s`,
+    - get the their multiples up to, but not including N
+    - push the multiples to `multiples`
+  - remove duplicate numbers in `multiples`
+  - return the sum of the numbers in `multiples`
 
-- helper method: `#multiples`
-  - accepts two integers (F and N) as arguments
+- helper method: `SumOfMultiples#multiples`
+  - takes two integers, N and M as arguments
   - initialize `multiples` to an empty array
-  - initialize `i` to 1
-  - while F * i < N
-    - push F * i to `multiples`
-    - increment `i` by 1
+  - initialize `num` to M
+  - while `num` < N
+    - push `num` to `multiples`
+    - increment `num` by M
   - return `multiples`
+
+- `SumOfMultiples::to`
+  - takes an integer representing N as an argument
+  - output the sum of the desided multiples
+  - instantiate a `SumOfMultiples` object with M1 = 3 and M2 = 5
+  - call `SumOfMultiples#to` on the above object with the passed-in argument
 
 =end
 
 class SumOfMultiples
-  def initialize(*f)
-    @f = f
+  def initialize(*m)
+    @m_s = m
   end
-  
+
+  def self.to(n)
+    self.new(3, 5).to(n)
+  end
+
   def to(n)
     multiples = []
-    @f.each do |f|
-      multiples << multiples(f, n)
-    end
-    multiples.flatten.uniq.sum
-  end
-  
-  def self.to(n)
-    multiples = []
-    [3, 5].each do |f|
-      multiples << multiples(f, n)
+    @m_s.each do |m|
+      multiples << multiples(n, m)
     end
     multiples.flatten.uniq.sum
   end
 
-  def multiples(f, n)
+  private
+
+  def multiples(n, m)
     multiples = []
-    i = 1
-    while f * i < n
-      multiples << f * i
-      i += 1
+    num = m
+    while num < n
+      multiples << num
+      num += m
     end
     multiples
-  end
-  
-  def self.multiples(f, n)
-    self.new.multiples(f, n)
   end
 end
