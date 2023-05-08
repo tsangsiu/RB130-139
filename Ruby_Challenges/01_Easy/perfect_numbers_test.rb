@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative 'perfect_number'
+require_relative 'perfect_numbers'
 
 class PerfectNumberTest < Minitest::Test
   def test_initialize_perfect_number
