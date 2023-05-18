@@ -15,6 +15,18 @@ def decipher(name)
   chars.join
 end
 
+def decipher(name)
+  name.chars.map do |char|
+    if ('a'..'m').to_a.include?(char.downcase)
+      (char.ord + 13).chr
+    elsif ('n'..'z').to_a.include?(char.downcase)
+      (char.ord - 13).chr
+    else
+      char
+    end
+  end.join('')
+end
+
 p decipher('Nqn Ybirynpr')
 p decipher('Tenpr Ubccre')
 p decipher('Nqryr Tbyqfgvar')
