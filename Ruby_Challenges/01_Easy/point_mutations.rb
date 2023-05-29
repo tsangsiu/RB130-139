@@ -1,49 +1,68 @@
 =begin
 
-# Problem
-- to write a program that can calculate the Hamming distance between two DNA strands
+[P] Understanding the Problem
+- Write a program to calculate the Hamming distance between two DNA strands.
 - Hamming distance
-  - the number of differences between two homologous DNA strands
-  - example:
-      GAGCCTACTAACGGGAT
-      CATCGTAATGACGGCCT
-      ^ ^ ^  ^ ^    ^^
-    Hamming distance = 7
-  - only defined for sequences of equal length
-  - for sequence of unequal length, compute the distance over the shorter length
+  - The number of differences between two homologous DNA strands
+  - GAGCCTACTAACGGGAT
+    CATCGTAATGACGGCCT
+    ^ ^ ^  ^ ^    ^^
+    -> The Hamming distance is 7
+  - Only defined for sequences of length lengths
+  - For sequences of different lengths, compute over the shorter length
 
-# Examples
-- in the test class
+[E] Examples / Test Cases
+''
+''
+-> 0
 
-# Data Structure
-- input: string
-- output: integer (distance)
+'GGACTGA'
+'GGACTGA'
+-> 0
 
-# Algorithm
-- constructor for the `DNA` class
-  - take a string (a DNA strand) when instantiation
+'ACT'
+'GGA'
+-> 3
 
-- `DNA#hamming_distance`
-  - take a string (a DNA strand) as an argument
-  - assign the shorter strand to `shorter_strand`
-  - assign the longer strand to `longer_strand`
-  - initialize `distance` to `0`
-  - iterate over each character in `shorter_strand`
-    - increment `distance` by 1 if the character in the corresponding position is not the same
-  - return `distance`
+'AAACTAGGGG'
+'AGGCTAGCGGTAGGAC'
+  ^^    ^
+-> 3
+
+[D] Data Structure
+- Input: string
+- Intermediate: array
+- Output: integer
+
+[A] Algorithm
+- We need to construct a DNA class
+
+- instantiation
+  - accept a string which represent a DNA string
+  - raise no error
+
+- DNA#hamming_distance
+  - accept a string (which represent another DNA) as an argument
+  - initialize a counter to 0 for hamming distance
+  - find the shorter DNA strand between the calling object and the argument
+  - convert both DNA strands as an array of characters
+  - iterate over the shorter DNA strand
+    - if the DNA is different for the current position
+      - increment the counter by 1
+  - return the counter
 
 =end
 
 class DNA
-  def initialize(strand)
-    @strand = strand
+  def initialize(dna)
+    @dna = dna
   end
 
-  def hamming_distance(strand)
+  def hamming_distance(dna)
     distance = 0
-    shorter_strand, longer_strand = [@strand, strand].sort_by { |strand| strand.length }
-    shorter_strand.chars.each_with_index do |dna, index|
-      distance += 1 if dna != longer_strand[index]
+    dna_shorter, dna_longer = [@dna, dna].sort_by { |dna| dna.length }.map(&:chars)
+    dna_shorter.each_with_index do |dna, index|
+      distance += 1 if dna != dna_longer[index]
     end
     distance
   end
