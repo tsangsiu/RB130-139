@@ -49,4 +49,61 @@ century(2012)     => "21st"
 century(2112)     => "22nd"
 century(22222)    => "223rd"
 
+[D] Data Structure:
+
+- input
+  - number
+- rules
+  - as data or as logic/code?
+
+[A] Algorithm:
+
+- century = (number - 1) / 100 + 1
+- century string = century number to string, then "apply suffix rules"
+
+Abstraction
+- Given a number
+  - if the last two digits are 11, 12, 13
+    - return 'th'
+  - else if the last digit is 1
+    - return 'st'
+  - else if the last digit is 2
+    - return 'nd'
+  - else if the last digit is 3
+    - return 'rd'
+  - else
+    - return 'th'
+
 =end
+
+def number_suffix(num)
+  if [11, 12, 13].include?(num % 100)
+    'th'
+  elsif num % 10 == 1
+    'st'
+  elsif num % 10 == 2
+    'nd'
+  elsif num % 10 == 3
+    'rd'
+  else
+    'th'
+  end
+end
+
+def century(year)
+  century = (year - 1) / 100 + 1
+  suffix = number_suffix(century)
+  "#{century}#{suffix}"
+end
+
+p century(1)        == "1st"
+p century(100)      == "1st"
+p century(101)      == "2nd"
+p century(133)      == "2nd"
+p century(245)      == "3rd"
+p century(1052)     == "11th"
+p century(1152)     == "12th"
+p century(1252)     == "13th"
+p century(2012)     == "21st" 
+p century(2112)     == "22nd"
+p century(22222)    == "223rd"
