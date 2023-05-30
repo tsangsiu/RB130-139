@@ -1,8 +1,8 @@
 =begin
 
 [P] Understanding the Problem
-- Write a program to determine if a triangle is equilateral, isosceles, or scalene,
-  given its three sides
+- Write a program to determine
+  if a triangle is equilateral, isosceles, or scalene, given its three sides
 - Equilateral
   - three sides are equal
 - Isosceles
@@ -31,9 +31,10 @@
 - Triangle class
   - accepts three numbers upon instantiation
   - raises ArgumentError if "invalid"
-  
+
 - help method: valid?
-  - return false if length <= 0 or sum of the any two sides is shorter than the 3rd side
+  - if length <= 0 or sum of the any two sides is shorter than the 3rd side
+    - return false
 
 - Triangle#kind
   - If three sides are equal
@@ -70,7 +71,7 @@ class Triangle
 
   def valid_sides?
     @sides[0] + @sides[1] > @sides[2] &&
-    @sides[0] + @sides[2] > @sides[1] &&
-    @sides[1] + @sides[2] > @sides[0]
+      @sides[0] + @sides[2] > @sides[1] &&
+      @sides[1] + @sides[2] > @sides[0]
   end
 end

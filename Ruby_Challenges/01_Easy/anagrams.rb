@@ -1,6 +1,6 @@
 =begin
 
-Write a program that takes a word and a list of possible anagrams and selects 
+Write a program that takes a word and a list of possible anagrams and selects
 the correct sublist that contains the anagrams of the word.
 
 For example, given the word "listen" and a list of candidates like "enlists",
@@ -41,7 +41,8 @@ For example, given the word "listen" and a list of candidates like "enlists",
   - iterate over the array of strings passed in
     - convert the current string to downcase
     - split the current string into an array of individual characters
-    - if the current string share the same set of characters as the calling string
+    - if the current string shares the same set of characters
+      with the calling string
       - push the current string to the output array
   - return the output array
 
@@ -51,7 +52,7 @@ class Anagram
   def initialize(word)
     @word = word
   end
-  
+
   def match(arr_str)
     output = []
     arr_str.each do |str|

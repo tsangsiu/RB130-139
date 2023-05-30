@@ -60,9 +60,9 @@ class DNA
 
   def hamming_distance(dna)
     distance = 0
-    dna_shorter, dna_longer = [@dna, dna].sort_by { |dna| dna.length }.map(&:chars)
-    dna_shorter.each_with_index do |dna, index|
-      distance += 1 if dna != dna_longer[index]
+    dna_shorter, dna_longer = [@dna, dna].sort_by(&:length).map(&:chars)
+    dna_shorter.each_with_index do |component, index|
+      distance += 1 if component != dna_longer[index]
     end
     distance
   end

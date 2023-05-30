@@ -31,13 +31,14 @@
   - raise no error
 - #to_roman
   - initialize an empty string for the Roman number output
-  - until the decimal number reaches 0
-    - iterate through the hash keys (which are decimal numbers) in order
-      - if the key is smaller than or equal to the decimal number
-        - reduce that amount from the number
-        - append the Roman digit to the string
-        - break the iteration
-  - return the string (Roman number)
+  - assign the decimal to a variable
+  - iterate through the hash keys in descending order
+    - divide the decimal by the key to get the quotient and remainder
+    - if the quotient is greater than 0
+      - append the corresponding value for the key to the Roman number output
+        by the quotient number of times
+  - re-assign the remainder to the variable
+  - return the Roman number
 
 =end
 
@@ -58,18 +59,11 @@ class RomanNumeral
 
   def to_roman
     decimal = @decimal
-    roman = ""
-    keys = DECIMAL_TO_ROMAN.keys.sort.reverse
-    until decimal == 0
-      keys.each do |dec|
-        if dec <= decimal
-          decimal -= dec
-          roman << DECIMAL_TO_ROMAN[dec]
-          break
-        end
-      end
+    roman = ''
+    DECIMAL_TO_ROMAN.keys.sort.reverse.each do |dec|
+      quotient, decimal = decimal.divmod(dec)
+      roman << DECIMAL_TO_ROMAN[dec] * quotient if quotient > 0
     end
     roman
   end
-
 end
