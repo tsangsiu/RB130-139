@@ -1,58 +1,75 @@
 =begin
 
-# Problem
-- write a program to convert decimal number to Roman number equivalents
-- consider number from 1 to 3,000 only
-- *Roman numerals are written by expressing each digit separately starting
-    with the left most digit and skipping any digit with a value of zero
+[P]
+- write a program to convert decimal numbers to their Roman equivalents
+- M, D, C, L, X, V, I
+- 1000, 500, 100, 50, 10, 5, 1
+- no need to worry integer > 3000
 
-# Examples
-- refer to the test class
+[E]
+- we need to write a RomanNumeral class
+- accept an integer upon instantiation
+- has a #to_roman method
+- 1 => 'I'
+- 2 => 'II'
+- 4 => 'IV'
+- 48 => 'XLVIII'
+- 1024 => 'MXXIV'
+- 3000 => 'MMM'
 
-# Data Structure
-- input: integer, from 1 to 3,000
+[D]
+- input: integer <= 3000
 - output: string
+- we also need a hash to store the convertion from decimal to roman
 
-# Algorithm
-- `RomanNumeral` class constructor
-  - accept an integer as an argument
+[A]
+- we need a RomanNumeral class
+- construct a hash to convert decimal to Roman
+  - keys: 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
+- Instantiation
+  - accepts an integer as an argument
   - raise no error
+- #to_roman
+  - initialize an empty string for the Roman number output
+  - until the decimal number reaches 0
+    - iterate through the hash keys (which are decimal numbers) in order
+      - if the key is smaller than or equal to the decimal number
+        - reduce that amount from the number
+        - append the Roman digit to the string
+        - break the iteration
+  - return the string (Roman number)
 
-- `RomanNumeral#to_roman`
-  - create a hash that map decimal numbers (in descending order) to Roman number
-    - keys: 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1
-  - initialize `roman` to an empty string
-  - while the given decimal number > 0
-    - find the first key in the hash that is smaller than or equal to the decimal number
-    - append the corresponding value to `roman`
-    - deduct the value of the key from the decimal number
-  - return `roman`
-  
 =end
 
 class RomanNumeral
-  # NUMBER_TO_ROMAN = { 1000 => 'M', 900 => 'CM', 500 => 'D', 400 => 'CD',
-  #                     100 => 'C', 90 => 'XC', 50 => 'L', 40 => 'XL',
-  #                     10 => 'X', 9 => 'IX', 5 => 'V', 4 => 'IV', 1 => 'I' }
+  DECIMAL_TO_ROMAN = {
+    1 => 'I',
+    4 => 'IV', 5 => 'V',
+    9 => 'IX', 10 => 'X',
+    40 => 'XL', 50 => 'L',
+    90 => 'XC', 100 => 'C',
+    400 => 'CD', 500 => 'D',
+    900 => 'CM', 1000 => 'M'
+  }
 
-  NUMBER_TO_ROMAN = { 1 => 'I', 4 => 'IV', 5 => 'V', 9 => 'IX', 10 => 'X',
-                      40 => 'XL', 50 => 'L', 90 => 'XC', 100 => 'C',
-                      400 => 'CD', 500 => 'D', 900 => 'CM', 1000 => 'M' }
-
-  def initialize(number)
-    @number = number
+  def initialize(decimal)
+    @decimal = decimal
   end
 
   def to_roman
-    roman = ''
-    current_number = @number
-    NUMBER_TO_ROMAN.keys.sort.reverse.each do |key|
-      next if key > current_number
-      until current_number < key
-        roman << NUMBER_TO_ROMAN[key]
-        current_number -= key
+    decimal = @decimal
+    roman = ""
+    keys = DECIMAL_TO_ROMAN.keys.sort.reverse
+    until decimal == 0
+      keys.each do |dec|
+        if dec <= decimal
+          decimal -= dec
+          roman << DECIMAL_TO_ROMAN[dec]
+          break
+        end
       end
     end
     roman
   end
+
 end
