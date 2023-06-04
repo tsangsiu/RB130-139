@@ -1,57 +1,48 @@
 =begin
 
-# Problem
-- given an octal input string, output its decimal
-- treat invalid input as octal 0
+[P]
+- Convert octal numbers to decimal numbers
+- Treat invalid inputs as octal 0
 
-# Examples
-- we need a `Octal` class
-- we need an `to_decimal` instance method
-  - return `0` if the argument is invalid
+[E]
+- '1' -> 1 * 8^0 = 1
+- '17' -> 1 * 8^1 + 7 * 8^0 = 15
+- 'carrot' -> 0
+- '234abc' -> 0
 
-# Data Structure
-- input: string
-- output: integer, decimal
+[D]
+- Input: String
+- Output: Integer
 
-# Algorithm
-- constructor
-  - accept a string as an argument
-  - raise no error at this point
-  
-- help method: `Octal#valid_input?`
-  - return `false` if the given string contains characters other than 0-7
+[A]
+- We need an `Octal` class
+  - Accepts a string as an argument upon instantiation
+  - Raises no error
+  - Contains a `to_decimal` instance method
 
 - `Octal#to_decimal`
-  - accepts no argument
-  - return `0` if the calling string contains invalid characters
-  - initialize `dec` to `0`
-  - split the calling string into an array individual character
-  - convert each character back to an integer
-  - reverse the array
-  - iterate through the array with index
-    - increment `dec` by the current integer * 8 ** current index
-  - return `dec`
+  - Returns 0 if the octal number is not valid
+    - Contains strings other than integers
+    - Contains integers 8 or 9
+  - Split the octal string into an array of characters of integers
+  - Iterate through the characters
+    - Turn the character to integer
+    - Map the current integer to current integer * place value
+  - Sum the array of values and return it
 
 =end
 
 class Octal
-  def initialize(oct)
-    @oct = oct
+  def initialize(octal)
+    @octal = octal
   end
 
   def to_decimal
-    return 0 unless valid_input?
-    dec = 0
-    digits = @oct.chars.map(&:to_i).reverse
-    digits.each_with_index do |digit, idx|
-      dec += digit * 8**idx
+    return 0 unless @octal =~ /\A[0-7]+\z/
+    digits = @octal.chars.map(&:to_i).reverse
+    values = digits.map.with_index do |digit, index|
+      digit * 8**index
     end
-    dec
-  end
-
-  private
-
-  def valid_input?
-    !@oct.match?(/[^0-7]/)
+    values.sum
   end
 end
