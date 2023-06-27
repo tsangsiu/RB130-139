@@ -18,25 +18,29 @@
     - The erased name is available for future robot
 
 [D]
-- Input: no input
+- Input: No input
 - Intermediate
   - A class variable to store used generated names
-- Output: string
+- Output: String
 
 [A]
 - `Robot` class
   - The class should have a class variable storing used generated names
-  - Instantiation
-    - Raise no error
-  - `Robot#name`
-    - If the robot has a name, return it
-    - Else,
-      - Generate a name
-      - Assign it to the name variable
-      - Return it
-  - `Robot#reset`
-    - Delete the name from the class variable so as to free it
-    - Set the robot's name to `nil`
+
+- Instantiation
+  - Raise no error upon instantiation
+
+- `Robot#name`
+  - If the robot has a name, return it
+  - Else,
+    - Generate a name
+    - Assign it to the name variable
+    - Return it
+
+- `Robot#reset`
+  - Delete the name from the class variable so as to free it
+  - Set the robot's name to `nil`
+
 - Helper method
   - A method to generate a name
     - Randomly select two letters
